@@ -1,0 +1,24 @@
+*this program creates the RandD;
+libname tmp1 '\\apporto.com\dfs\SEA\Users\s116_sea\Desktop\FinANa\SAAS';
+run;
+data a1; set tmp1.RandDdataset;
+gvkey2=gvkey*1;
+nyear=year(datadate);
+if not missing(at);
+if not missing(nyear);
+if not missing(gvkey2);
+if xrd = "." then xrd=0;
+keep gvkey2 xrd cusip nyear  at ;
+proc sort nodupkey; by gvkey2 nyear;
+proc means; run;
+data a2; set a1;
+RandD=xrd/at;
+if RandD ne ".";
+if nyear>=1975;
+data a3; set a2;
+proc sort nodupkey; by gvkey2 nyear;
+data a4; set a3;
+data tmp1.RandD1; set a4;
+data tmp1.RandD2; set a4;
+proc means; run;
+

@@ -1,0 +1,36 @@
+*this program creates the nwc;
+libname tmp1 '\\apporto.com\dfs\SEA\Users\s116_sea\Desktop\FinANa\SAAS';
+run;
+data a1; set tmp1.nwcraw;
+gvkey2=gvkey*1;
+nyear=year(datadate);
+if not missing(che);
+if not missing(nyear);
+if not missing(gvkey2);
+if not missing(at);
+if not missing(act);
+if not missing(lct);
+keep gvkey2  cusip nyear che at act lct ;
+proc sort nodupkey; by gvkey2 nyear;
+data a2; set a1;
+nwc=(act-lct-che)/(at-che);
+if nwc ne ".";
+if nyear>=1975;
+data a3; set a2;
+keep gvkey2 cusip nyear nwc;
+proc sort nodupkey; by gvkey2 nyear;
+data a4; set a3;
+proc means; run;
+
+data tmp1.nwcall1; set a4;
+data tmp1.nwcall2; set a4;
+data tmp1.nwcall3; set a4;
+data tmp1.nwcall4; set a4;
+data tmp1.nwcall5; set a4;
+data tmp1.nwcall6; set a4;
+data tmp1.nwcall7; set a4;
+data tmp1.nwcall8; set a4;
+data tmp1.nwcall9; set a4;
+data tmp1.nwcall10; set a4;
+proc means; run;
+
